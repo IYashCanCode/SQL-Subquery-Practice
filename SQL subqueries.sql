@@ -87,6 +87,8 @@ select Doctor_name, Ward_no,count(Patient_name) 'Patient Treated' from patients
 group by Doctor_name,ward_no
 order by ward_no;
 
+
+
 -- Q3. Display the average fees taken by each Doctor.
 select Doctor_name, avg(Fees) 'Average charge'from patients
 group by Doctor_name;
@@ -97,3 +99,25 @@ inner join doctors d
 on m.Doctor_name = d.doctor_name
 where date = '01-02-22'
 group by m.doctor_name;
+
+-- Q5. How many nurses were present on Wednesday with Dr.Rutuja? 
+select t.doctor_name,w.ward_no,w.nurses from timetable t,ward w
+where t.ward_no = w.ward_no and t.day = 'wednesday'
+and t.doctor_name in (select doctor_name from timetable where doctor_name = 'dr.rutuja');
+
+-- Q6. At what time is Dr.Rutuja available on Wednesday?
+select Day,doctor_name,time from timetable where doctor_name ='Dr.rutuja' and day = 'wednesday';
+
+-- Q7. Count of patients with good condition treated by each doctor?
+select Doctor_name, count(condi_tion) 'number of good condition patients ' from patients where condi_tion ='good' group by doctor_name;
+
+-- Q8. Wards on which floor has used the minimum number of medicines on date ‘02-02-22’?
+select w.ward_no,w.floor,min(m.medicines) 'minimun number of medicines on 02-02-22' 
+from ward w,medicines m
+where w.ward_no = m.ward_no and date = '02-02-22';
+
+
+-- Q9. Display ward no. having minimum number of beds.
+select ward_no,min(beds) 'Minimun number of beds' from ward;
+
+-- Q10. Display total experience of doctors with specialty as ‘Cardiologist’.
